@@ -7,9 +7,17 @@ import Notification from './Notification';
 
 function App() {
 
+  const getLocalStorage = () => {
+    let newList = localStorage.getItem('groceryList')
+    if (newList) {
+      return JSON.parse(localStorage.getItem('groceryList'))
+    }else {
+      return []
+    }
+  }
   
   const [name, setName] = useState('')
-  const [list, setList] = useState([])
+  const [list, setList] = useState(getLocalStorage())
   const [isEditing, setIsEditing] = useState(false)
   const [editiID, setEditID] = useState(null)
   const [status, setStatus] = useState(
@@ -26,24 +34,25 @@ function App() {
     e.preventDefault()
     if (!name) {
       setAlertMsg(true, 'Please input value', 'error')
+
     }else if (name && isEditing) {
-      setList(
-        list.map((item) => {
-          if (item.id === editiID) {
-            return {...item, item: name}
-          }
-          return item
-        })
-      )
+      setList(list.map((item) => {
+        if (item.id === editiID) {
+          return {...item, title: name}
+        }
+        return item
+      }))
       setName('')
       setEditID(null)
       setIsEditing(false)
-      setAlertMsg(true, 'value changed', 'success')
+      setAlertMsg(true, 'Value changed', 'success')
+
     }else {
       const newItems = {id: new Date().getTime().toString(), title: name}
       setList([...list, newItems])
       setAlertMsg(true, 'Item Added', 'success')
       setName('')
+      localStorage.setItem('groceryList', JSON.stringify(list))
     }
   }
 
@@ -71,14 +80,9 @@ function App() {
     console.log('fff', edited)
   }
 
-  // useEffect(() => {
-
-    
-    
-  //   setList(getList)
-    
-  //   localStorage.setItem('groceryList', JSON.stringify(list))
-  // }, [])
+  useEffect(() => {
+    localStorage.setItem('groceryList', JSON.stringify(list))
+  }, [list])
 
   return (
     <Box as = "main"  bg='gray.100'  mt='3rem' py='20px' rounded='10px' boxShadow='xl' maxW='45rem' mx={{ base: '10px', md: 'auto'}} px={{base: '20px', md: '40px'}}
