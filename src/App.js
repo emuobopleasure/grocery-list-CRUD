@@ -1,6 +1,5 @@
-import { Box, Button, Center, Flex, Input, Text, VStack} from '@chakra-ui/react';
+import { Box, Button, Center, Flex, Input, Text,} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import Alert from './Notification';
 import ItemsList from './ItemsList';
 import Notification from './Notification';
 

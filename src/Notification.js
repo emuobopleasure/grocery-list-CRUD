@@ -9,7 +9,7 @@ const Notification = ({variant, setAlertMsg, list}) => {
       setAlertMsg()
     }, 3000)
     return () => clearTimeout(timeOut)
-  }, [list])
+  }, [list, setAlertMsg])
 
   return (
     <div>
